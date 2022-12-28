@@ -1,0 +1,157 @@
+<!-- projecto año: 2020 -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=devide-width" />
+
+    <title>Alertas</title>
+    <!-- Stylesheet -->
+
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <!-- Load D3 -->
+    <script src="//d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/selectize.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/locale.js"></script>
+    <script
+      type="text/javascript"
+      src="js/tableExport.jquery.plugin/html2canvas.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="js/tableExport.jquery.plugin/tableExport.js"
+    ></script>
+  </head>
+  <body>
+    <div id="wrapper">
+      <label>Departamentos:</label>
+      <select
+        id="selectButton"
+        multiple
+        name="state"
+        class="demo-default"
+        style="width: 15%"
+      ></select>
+      <label>
+        <input
+          id="a"
+          type="checkbox"
+          class="radio"
+          value="des"
+          checked=""
+          name="fooby[1][]"
+          onchange="csv_file(this)"
+          required
+        />Deslizamientos
+      </label>
+
+      <label>
+        <input
+          id="b"
+          type="checkbox"
+          class="radio"
+          value="icv"
+          name="fooby[1][]"
+          onchange="csv_file(this)"
+          required
+        />Incendios
+      </label>
+
+      <div id="graficas">
+        <label>
+          <input
+            id="r"
+            type="radio"
+            class="chk"
+            name="fooby[1][]"
+            checked=""
+            onchange="k_alert(this)"
+          />Tipo de alerta
+        </label>
+        <label>
+          <input
+            id="al"
+            type="radio"
+            class="chk"
+            name="fooby[1][]"
+            onchange="k_alert(this)"
+          />Regiones naturales
+        </label>
+
+        <h2 id="textalert" style="text-align: center; margin-left: 15%"></h2>
+        <div class="container">
+          <div id="donut">
+            <h3 id="tipo_dona" style="text-align: center margin-left: 1%"></h3>
+          </div>
+          <div id="bars"></div>
+        </div>
+        <h3 id="date" style="text-align: right; margin-right: 20%"></h3>
+      </div>
+
+      <table id="alertasresumen">
+        <tr>
+          <td id="amenazaCount0"></td>
+          <td id="amenazaCount2"></td>
+          <td id="amenazaCount4"></td>
+          <td id="amenazaCount">gg</td>
+        </tr>
+        <tr>
+          <td id="amenazaCount1"></td>
+          <td id="amenazaCount3"></td>
+        </tr>
+      </table>
+
+      <button id="export">Exportar tablas</button>
+    </div>
+
+    <div class="container">
+      <div id="Amarillaa" class="center"></div>
+      <div id="Naranjaa" class="center"></div>
+      <div id="Rojaa" class="center"></div>
+    </div>
+
+    <script type="text/javascript">
+      $("#export").on("click", function () {
+        console.log("exporting");
+
+        var tablas = ["Amarillaa", "Naranjaa", "Rojaa"];
+
+        for (var i in tablas) {
+          console.log(tablas[i]);
+
+          html2canvas($("#" + tablas[i] + "> table"), {
+            onrendered: function (canvas) {
+              var img = canvas.toDataURL("image/png");
+
+              function saveAs(uri, filename) {
+                var link = document.createElement("a");
+                if (typeof link.download === "string") {
+                  document.body.appendChild(link); // Firefox requires the link to be in the body
+                  link.download = filename;
+                  link.href = uri;
+                  link.click();
+                  document.body.removeChild(link); // remove the link when done
+                } else {
+                  location.replace(uri);
+                }
+              }
+              var uri = img.replace(
+                /^data:image\/[^;]/,
+                "data:application/octet-stream"
+              );
+              //window.open(url);
+              saveAs(uri, "export.png");
+            },
+          });
+        }
+      });
+    </script>
+
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/donut.js"></script>
+    <script type="text/javascript" src="js/bars.js"></script>
+    <script type="text/javascript" src="js/tables.js"></script>
+  </body>
+</html>
